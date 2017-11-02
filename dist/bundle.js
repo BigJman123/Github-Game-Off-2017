@@ -10575,8 +10575,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_phaser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_phaser__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__states_Boot__ = __webpack_require__(/*! ./states/Boot */ 336);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__states_Splash__ = __webpack_require__(/*! ./states/Splash */ 337);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__states_Game__ = __webpack_require__(/*! ./states/Game */ 339);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__config__ = __webpack_require__(/*! ./config */ 341);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__states_Title__ = __webpack_require__(/*! ./states/Title */ 343);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__states_Title___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__states_Title__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__states_Game__ = __webpack_require__(/*! ./states/Game */ 339);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__config__ = __webpack_require__(/*! ./config */ 341);
+
 
 
 
@@ -10590,14 +10593,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 class Game extends __WEBPACK_IMPORTED_MODULE_2_phaser___default.a.Game {
   constructor() {
     const docElement = document.documentElement;
-    const width = docElement.clientWidth > __WEBPACK_IMPORTED_MODULE_6__config__["a" /* default */].gameWidth ? __WEBPACK_IMPORTED_MODULE_6__config__["a" /* default */].gameWidth : docElement.clientWidth;
-    const height = docElement.clientHeight > __WEBPACK_IMPORTED_MODULE_6__config__["a" /* default */].gameHeight ? __WEBPACK_IMPORTED_MODULE_6__config__["a" /* default */].gameHeight : docElement.clientHeight;
+    const width = docElement.clientWidth > __WEBPACK_IMPORTED_MODULE_7__config__["a" /* default */].gameWidth ? __WEBPACK_IMPORTED_MODULE_7__config__["a" /* default */].gameWidth : docElement.clientWidth;
+    const height = docElement.clientHeight > __WEBPACK_IMPORTED_MODULE_7__config__["a" /* default */].gameHeight ? __WEBPACK_IMPORTED_MODULE_7__config__["a" /* default */].gameHeight : docElement.clientHeight;
 
     super(width, height, __WEBPACK_IMPORTED_MODULE_2_phaser___default.a.CANVAS, 'content', null);
 
     this.state.add('Boot', __WEBPACK_IMPORTED_MODULE_3__states_Boot__["a" /* default */], false);
     this.state.add('Splash', __WEBPACK_IMPORTED_MODULE_4__states_Splash__["a" /* default */], false);
-    this.state.add('Game', __WEBPACK_IMPORTED_MODULE_5__states_Game__["a" /* default */], false);
+    this.state.add('Title', __WEBPACK_IMPORTED_MODULE_5__states_Title___default.a, false);
+    this.state.add('Game', __WEBPACK_IMPORTED_MODULE_6__states_Game__["a" /* default */], false);
 
     // with Cordova with need to wait that the device is ready so we will call the Boot state in another file
     if (!window.cordova) {
@@ -10654,7 +10658,7 @@ if (window.cordova) {
 
 /* harmony default export */ __webpack_exports__["a"] = (class extends __WEBPACK_IMPORTED_MODULE_0_phaser___default.a.State {
   init() {
-    this.stage.backgroundColor = '#EDEEC9';
+    this.stage.backgroundColor = '#ffffff';
     this.fontsReady = false;
     this.fontsLoaded = this.fontsLoaded.bind(this);
   }
@@ -10761,28 +10765,17 @@ const centerGameObjects = objects => {
   preload() {}
 
   create() {
-    const bannerText = 'Phaser + ES6 + Webpack';
-    let banner = this.add.text(this.world.centerX, this.game.height - 80, bannerText);
-    banner.font = 'Bangers';
-    banner.padding.set(10, 16);
-    banner.fontSize = 40;
-    banner.fill = '#77BFA3';
-    banner.smoothed = false;
-    banner.anchor.setTo(0.5);
+    let circle = new __WEBPACK_IMPORTED_MODULE_0_phaser___default.a.Circle(game.world.centerX, game.world.centerY, 725);
 
-    this.mushroom = new __WEBPACK_IMPORTED_MODULE_1__sprites_Mushroom__["a" /* default */]({
-      game: this.game,
-      x: this.world.centerX,
-      y: this.world.centerY,
-      asset: 'mushroom'
-    });
-
-    this.game.add.existing(this.mushroom);
+    var graphics = game.add.graphics(0, 0);
+    graphics.lineStyle(1, 0x000000, 1);
+    graphics.lineWidth = 150;
+    graphics.drawCircle(circle.x, circle.y, circle.diameter);
   }
 
   render() {
     if (true) {
-      this.game.debug.spriteInfo(this.mushroom, 32, 32);
+      // this.game.debug.spriteInfo(this.mushroom, 32, 32)
     }
   }
 });
@@ -10793,7 +10786,6 @@ const centerGameObjects = objects => {
   !*** ./src/sprites/Mushroom.js ***!
   \*********************************/
 /*! exports provided: default */
-/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10801,7 +10793,7 @@ const centerGameObjects = objects => {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_phaser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_phaser__);
 
 
-/* harmony default export */ __webpack_exports__["a"] = (class extends __WEBPACK_IMPORTED_MODULE_0_phaser___default.a.Sprite {
+/* unused harmony default export */ var _unused_webpack_default_export = (class extends __WEBPACK_IMPORTED_MODULE_0_phaser___default.a.Sprite {
   constructor({ game, x, y, asset }) {
     super(game, x, y, asset);
     this.anchor.setTo(0.5);
@@ -10823,10 +10815,22 @@ const centerGameObjects = objects => {
 
 "use strict";
 /* harmony default export */ __webpack_exports__["a"] = ({
-  gameWidth: 760,
-  gameHeight: 400,
+  gameWidth: 600,
+  gameHeight: 600,
   localStorageName: 'phaseres6webpack'
 });
+
+/***/ }),
+/* 342 */,
+/* 343 */
+/*!*****************************!*\
+  !*** ./src/states/Title.js ***!
+  \*****************************/
+/*! dynamic exports provided */
+/*! exports used: default */
+/***/ (function(module, exports) {
+
+
 
 /***/ })
 ],[128]);
