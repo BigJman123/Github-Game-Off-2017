@@ -8,8 +8,7 @@ export default class extends Phaser.State {
   preload () {}
 
   create () {
-
-  	// this.game.camera.setPosition(config.gameWidth*0.5*-1, config.gameHeight*0.5*-1)
+	this.camera.flash('#000000');
 
   	this.game.world.setBounds(-300, -300, 600, 600)
 
@@ -62,6 +61,7 @@ export default class extends Phaser.State {
     this.block.body.allowGravity = false
     this.block.body.immovable = true
 
+
     // GROUND
     // create invisible ground under the player
 	this.ground = new Phaser.Sprite(
@@ -111,20 +111,23 @@ export default class extends Phaser.State {
     let hitPlatform = this.game.physics.arcade.collide(this.player, this.ground)
 
     let hitBlock = this.game.physics.arcade.collide(this.player, this.block)
-    if(hitBlock) {
-    	console.log('hit')
-    }
 
     // right, left input
     if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
       this.player.play('run right')
-      config.player.position += 5
-      config.block.angle--
+      if (hitBlock && this.player.x < this.block.x) {
+      	// console.log('nope')	
+      } else {
+      	config.player.position += 5
+      }
     } 
     else if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT) && config.press) {
       this.player.play('run left')
-      config.player.position -= 5
-      config.block.angle++
+      if (hitBlock && this.player.x > this.block.x) {
+      	// console.log('nope')
+      } else {
+      	config.player.position -= 5
+      }
     }
     else {
       this.player.animations.stop()

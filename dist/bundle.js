@@ -4266,6 +4266,7 @@ module.exports = Math.scale || function scale(x, inLow, inHigh, outLow, outHigh)
 	gameHeight: 600,
 	localStorageName: 'phaseres6webpack',
 	press: true,
+	state: 'Title',
 
 	update() {
 		this.window.min = Math.floor(this.player.position - this.window.cir * .25);
@@ -10630,7 +10631,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__states_Boot__ = __webpack_require__(/*! ./states/Boot */ 337);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__states_Splash__ = __webpack_require__(/*! ./states/Splash */ 338);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__states_Title__ = __webpack_require__(/*! ./states/Title */ 340);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__states_Title___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__states_Title__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__states_Game__ = __webpack_require__(/*! ./states/Game */ 341);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__config__ = __webpack_require__(/*! ./config */ 128);
 
@@ -10654,7 +10654,7 @@ class Game extends __WEBPACK_IMPORTED_MODULE_2_phaser___default.a.Game {
 
     this.state.add('Boot', __WEBPACK_IMPORTED_MODULE_3__states_Boot__["a" /* default */], false);
     this.state.add('Splash', __WEBPACK_IMPORTED_MODULE_4__states_Splash__["a" /* default */], false);
-    this.state.add('Title', __WEBPACK_IMPORTED_MODULE_5__states_Title___default.a, false);
+    this.state.add('Title', __WEBPACK_IMPORTED_MODULE_5__states_Title__["a" /* default */], false);
     this.state.add('Game', __WEBPACK_IMPORTED_MODULE_6__states_Game__["a" /* default */], false);
 
     // with Cordova with need to wait that the device is ready so we will call the Boot state in another file
@@ -10771,14 +10771,16 @@ if (window.cordova) {
     //
     // load your assets
     //
-    this.load.spritesheet('box', 'assets/images/box.png', 65, 95);
+    this.load.spritesheet('box', 'assets/images/box.png', 85, 95);
     this.load.image('ground', 'assets/images/ground.png', 160, 40);
     this.load.image('ground2', 'assets/images/ground2.png', 160, 40);
     this.load.image('block', 'assets/images/block.png', 15, 25);
+    this.load.image('logo', 'assets/images/circuitlogo.png', 390, 80);
+    this.load.image('space', 'assets/images/space.png', 385, 60);
   }
 
   create() {
-    this.state.start('Game');
+    this.state.start('Title');
   }
 });
 
@@ -10805,11 +10807,68 @@ const centerGameObjects = objects => {
 /*!*****************************!*\
   !*** ./src/states/Title.js ***!
   \*****************************/
-/*! dynamic exports provided */
+/*! exports provided: default */
 /*! exports used: default */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_phaser__ = __webpack_require__(/*! phaser */ 46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_phaser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_phaser__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__sprites_Player__ = __webpack_require__(/*! ../sprites/Player */ 342);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__sprites_Controls__ = __webpack_require__(/*! ../sprites/Controls */ 344);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__config__ = __webpack_require__(/*! ../config */ 128);
+/* globals __DEV__ */
 
 
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = (class extends __WEBPACK_IMPORTED_MODULE_0_phaser___default.a.State {
+  init() {}
+  preload() {}
+
+  create() {
+
+    this.game.world.setBounds(-300, -300, 600, 600);
+
+    this.physics.arcade.gravity.y = 800;
+
+    let circle = new __WEBPACK_IMPORTED_MODULE_0_phaser___default.a.Circle(game.world.centerX, game.world.centerY, 725);
+
+    let cir = Math.round(circle.circumference());
+
+    let graphics = game.add.graphics(0, 0);
+    graphics.lineStyle(1, 0x000000, 1);
+    graphics.lineWidth = 150;
+    graphics.drawCircle(circle.x, circle.y, circle.diameter);
+
+    this.logo = new __WEBPACK_IMPORTED_MODULE_0_phaser___default.a.Image(this.game, 0, 0, 'logo');
+    this.logo.anchor.setTo(.5);
+    this.logo.scale.setTo(0, 0);
+
+    this.game.add.existing(this.logo);
+
+    game.add.tween(this.logo.scale).to({ x: 1, y: 1 }, 1000, __WEBPACK_IMPORTED_MODULE_0_phaser___default.a.Easing.Bounce.Out, true, 0, 0, false);
+
+    this.start = new __WEBPACK_IMPORTED_MODULE_0_phaser___default.a.Image(this.game, 0, 0 + 150, 'space');
+    this.start.anchor.setTo(.5);
+    this.start.scale.setTo(.5, .5);
+    this.start.alpha = 0;
+
+    this.game.add.existing(this.start);
+
+    setTimeout(() => game.add.tween(this.start).to({ alpha: 1 }, 750, __WEBPACK_IMPORTED_MODULE_0_phaser___default.a.Easing.Linear.None, true, 0, -1, true), 1250);
+
+    this.controls = new __WEBPACK_IMPORTED_MODULE_2__sprites_Controls__["a" /* default */](this.game);
+  }
+
+  update() {
+    if (__WEBPACK_IMPORTED_MODULE_3__config__["a" /* default */].state === 'Title') {
+      this.controls.startGameOnButtonPress();
+    }
+  }
+
+});
 
 /***/ }),
 /* 341 */
@@ -10835,8 +10894,7 @@ const centerGameObjects = objects => {
   preload() {}
 
   create() {
-
-    // this.game.camera.setPosition(config.gameWidth*0.5*-1, config.gameHeight*0.5*-1)
+    this.camera.flash('#000000');
 
     this.game.world.setBounds(-300, -300, 600, 600);
 
@@ -10933,19 +10991,22 @@ const centerGameObjects = objects => {
     let hitPlatform = this.game.physics.arcade.collide(this.player, this.ground);
 
     let hitBlock = this.game.physics.arcade.collide(this.player, this.block);
-    if (hitBlock) {
-      console.log('hit');
-    }
 
     // right, left input
     if (game.input.keyboard.isDown(__WEBPACK_IMPORTED_MODULE_0_phaser___default.a.Keyboard.RIGHT)) {
       this.player.play('run right');
-      __WEBPACK_IMPORTED_MODULE_2__config__["a" /* default */].player.position += 5;
-      __WEBPACK_IMPORTED_MODULE_2__config__["a" /* default */].block.angle--;
+      if (hitBlock && this.player.x < this.block.x) {
+        // console.log('nope')	
+      } else {
+        __WEBPACK_IMPORTED_MODULE_2__config__["a" /* default */].player.position += 5;
+      }
     } else if (game.input.keyboard.isDown(__WEBPACK_IMPORTED_MODULE_0_phaser___default.a.Keyboard.LEFT) && __WEBPACK_IMPORTED_MODULE_2__config__["a" /* default */].press) {
       this.player.play('run left');
-      __WEBPACK_IMPORTED_MODULE_2__config__["a" /* default */].player.position -= 5;
-      __WEBPACK_IMPORTED_MODULE_2__config__["a" /* default */].block.angle++;
+      if (hitBlock && this.player.x > this.block.x) {
+        // console.log('nope')
+      } else {
+        __WEBPACK_IMPORTED_MODULE_2__config__["a" /* default */].player.position -= 5;
+      }
     } else {
       this.player.animations.stop();
 
@@ -11032,6 +11093,37 @@ const centerGameObjects = objects => {
     // this.runRight()
     // }
   }
+});
+
+/***/ }),
+/* 343 */,
+/* 344 */
+/*!*********************************!*\
+  !*** ./src/sprites/Controls.js ***!
+  \*********************************/
+/*! exports provided: default */
+/*! exports used: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_phaser__ = __webpack_require__(/*! phaser */ 46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_phaser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_phaser__);
+
+
+/* harmony default export */ __webpack_exports__["a"] = (class {
+	constructor(game) {
+
+		this.game = game;
+
+		this.space = this.game.input.keyboard.addKey(__WEBPACK_IMPORTED_MODULE_0_phaser___default.a.Keyboard.SPACEBAR);
+	}
+
+	startGameOnButtonPress() {
+		if (this.space.justPressed()) {
+			setTimeout(() => this.game.state.start('Game'), 1000);
+			this.game.camera.fade();
+		}
+	}
 });
 
 /***/ })

@@ -30,6 +30,7 @@ export default {
 	gameHeight: 600,
 	localStorageName: 'phaseres6webpack',
 	press: true,
+	state: 'Title',
 
 
 	update() {
